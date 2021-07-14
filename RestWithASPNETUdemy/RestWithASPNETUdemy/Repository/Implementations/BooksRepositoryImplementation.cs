@@ -5,22 +5,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RestWithASPNETUdemy.Services.Implementations
+namespace RestWithASPNETUdemy.Repository.Implementations
 {
-    public class PersonServiceImplementation : IPersonService
+    public class BooksRepositoryImplementation : IBooksRepository
     {
         private MySQLContext _context;
 
-        public PersonServiceImplementation(MySQLContext context)
+        public BooksRepositoryImplementation(MySQLContext context)
         {
             _context = context;
         }
 
-        public Person Create(Person person)
+        public Books Create(Books books)
         {
             try
             {
-                _context.Persons.Add(person);
+                _context.Books.Add(books);
                 _context.SaveChanges();
             }
             catch (Exception ex)
@@ -29,18 +29,18 @@ namespace RestWithASPNETUdemy.Services.Implementations
                 throw ex;
             }
 
-            return person;
+            return books;
         }
 
         public void Delete(long id)
         {
-            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(id));
+            var result = _context.Books.SingleOrDefault(p => p.Id.Equals(id));
 
             if (result != null)
             {
                 try
                 {
-                    _context.Persons.Remove(result);
+                    _context.Books.Remove(result);
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
@@ -50,28 +50,28 @@ namespace RestWithASPNETUdemy.Services.Implementations
             }
         }
 
-        public List<Person> FindAll()
+        public List<Books> FindAll()
         {
-            return _context.Persons.ToList();
+            return _context.Books.ToList();
         }
 
-        public Person FindByID(long id)
+        public Books FindByID(long id)
         {
-            return _context.Persons.SingleOrDefault(p => p.Id.Equals(id));
+            return _context.Books.SingleOrDefault(p => p.Id.Equals(id));
         }
 
-        public Person Update(Person person)
+        public Books Update(Books books)
         {
-            if (!Exists(person.Id)) new Person();
-            
+            if (!Exists(books.Id)) return null;
 
-            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(person.Id));
 
-            if(result != null)
+            var result = _context.Persons.SingleOrDefault(p => p.Id.Equals(books.Id));
+
+            if (result != null)
             {
                 try
                 {
-                    _context.Entry(result).CurrentValues.SetValues(person);
+                    _context.Entry(result).CurrentValues.SetValues(books);
                     _context.SaveChanges();
                 }
                 catch (Exception ex)
@@ -80,12 +80,12 @@ namespace RestWithASPNETUdemy.Services.Implementations
                 }
             }
 
-            return person;
+            return books;
         }
 
-        private bool Exists(long id)
+        public bool Exists(long id)
         {
-            return _context.Persons.Any(p => p.Id.Equals(id));
+            return _context.Books.Any(p => p.Id.Equals(id));
         }
     }
 }
