@@ -8,10 +8,9 @@ using Microsoft.OpenApi.Models;
 using RestWithASPNETUdemy.Model.Context;
 using RestWithASPNETUdemy.Business;
 using RestWithASPNETUdemy.Business.Implementations;
-using RestWithASPNETUdemy.Repository;
-using RestWithASPNETUdemy.Repository.Implementations;
 using Serilog;
 using System.Collections.Generic;
+using RestWithASPNETUdemy.Repository.Generic;
 
 namespace RestWithASPNETUdemy
 {
@@ -53,11 +52,10 @@ namespace RestWithASPNETUdemy
             services.AddApiVersioning();
 
             // Injeção de Dependencia
-            services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
-            services.AddScoped<IPersonRepository, PersonRepositoryImplementation>();
-
+            services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();            
             services.AddScoped<IBooksBusiness, BooksBusinessImplementation>();
-            services.AddScoped<IBooksRepository, BooksRepositoryImplementation>();
+
+            services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
