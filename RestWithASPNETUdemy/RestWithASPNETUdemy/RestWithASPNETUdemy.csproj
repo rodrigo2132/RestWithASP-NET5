@@ -19,6 +19,7 @@
   <ItemGroup>
     <Folder Include="Db\Migrations\" />
     <Folder Include="Db\Dataset\" />
+    <Folder Include="UploadDir\" />
   </ItemGroup>
 
 </Project>
